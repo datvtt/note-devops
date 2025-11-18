@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploy-1   #tên deployment
+  namespace: lab #change
+  labels:
+    app: deploy-1 #tag deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: deploy-1 #deployment
+  template:
+    metadata:
+      labels:
+        app: deploy-1 #deployment
+    spec:
+      containers:
+        - name: deploy-1 #deployment
+          image: 872515274284.dkr.ecr.ap-southeast-1.amazonaws.com/datvtt:1.0.97f8480  #tên của ECR
+          ports:
+            - containerPort: 8080 #port trong container
+          resources:
+            requests:
+              cpu: 500m
+              memory: 1024Mi
+            limits:
+              cpu: 1000m
+              memory: 2048Mi

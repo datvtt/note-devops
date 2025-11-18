@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: deploy-1-ingress #change
+  namespace: lab #change
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    cert-manager.io/cluster-issuer: "letsencrypt-http" #thay tên theo ssl
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+spec:
+  tls:
+    - hosts:
+        - java.showtech.cloud
+      secretName: deploy-1-tls #thay theo mỗi tls
+  rules:
+    - host: java.showtech.cloud
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: deploy-1-svc  #thay theo service
+                port:
+                  number: 80 #port gắn với port bên ngoài service
