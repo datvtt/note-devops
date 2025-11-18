@@ -1,0 +1,63 @@
+terraform init – tải provider và khởi tạo project.
+
+terraform fmt – định dạng lại code theo chuẩn.
+
+terraform validate – kiểm tra cú pháp HCL hợp lệ.
+
+terraform plan – xem trước các thay đổi.
+
+terraform apply – thực hiện ghi/resource.
+
+terraform destroy – xoá tài nguyên nếu cần.
+
+
+terraform fmt
+terraform init
+terraform validate
+aws configure list
+
+terraform plan
+terraform apply
+terraform state list
+terraform show
+
+
+terraform destroy
+
+
+lấy cấu hình k8s
+aws eks --region ap-southeast-1 update-kubeconfig --name $(terraform output -raw cluster_name)
+
+
+terraform providers
+
+
+
+kết nối vào cụm
+curl -LO https://s3.us-west-2.amazonaws.com/amazon-eks/1.33.5/2025-09-19/bin/linux/amd64/kubectl
+
+chmod +x kubectl
+sudo rm /usr/local/bin/kubectl
+sudo mv kubectl /usr/local/bin/
+kubectl version --client
+aws eks update-kubeconfig --region ap-southeast-1 --name my-eks-cluster
+
+
+
+
+aws eks create-access-entry \
+  --cluster-name eks-cluster \
+  --principal-arn arn:aws:iam::872515274284:user/terraform-user \
+  --type STANDARD \
+  --region ap-southeast-1
+  
+  
+  
+aws eks associate-access-policy \
+  --cluster-name eks-cluster \
+  --principal-arn arn:aws:iam::872515274284:user/terraform-user \
+  --policy-arn arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy \
+  --access-scope type=cluster \
+  --region ap-southeast-1
+
+kubectl get nodes

@@ -1,0 +1,3 @@
+Kết nối kubernet vào EKS
+
+aws eks --region ap-southeast-1 update-kubeconfig --name $(terraform output -raw cluster_name)

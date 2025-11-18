@@ -1,0 +1,40 @@
+Nginx ingress & cerbot
+
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/latest/download/cert-manager.yaml
+
+
+kubectl get pods --namespace cert-manager
+
+
+
+
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+helm repo update
+
+helm install ingress-nginx ingress-nginx/ingress-nginx \
+  --namespace ingress-nginx \
+  --create-namespace \
+  --set controller.service.type=LoadBalancer
+  
+  
+kubectl get svc -n ingress-nginx
+
+cat <<EOF > cluster-issuer.yaml
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-http
+spec:
+  acme:
+    email: vutruongtandat@gmail.com
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: letsencrypt-http-private-key
+    solvers:
+      - http01:
+          ingress:
+            class: nginx
+EOF
+
+kubectl get clusterissuer
+
